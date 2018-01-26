@@ -68,6 +68,15 @@ size_t get_fb_size(u8 reserved_fb)
 #else
 		size = (xres * yres << 2) << 1; /* two buffer */
 #endif
+	
+	// if (rk_screen->type == SCREEN_HDMI) 
+	{
+		// preallocate buffer for Ultra HD
+		// use three buffers, as defined in hardware-rockchip-libgralloc
+		xres = 3840; yres = 2160;
+		size = (xres * yres << 2) * 3;
+		pr_info("RK screen: pre-allocate buffer for %dx%d\n", xres, yres);
+	}
 
 	return ALIGN(size, SZ_1M);
 }
